@@ -47,7 +47,7 @@ export const Profile = () => {
   return (
     <div>
       <div className="container max-w-full ">
-        <div className="m-auto  w-full max-w-3xl items-center justify-center overflow-hidden rounded-2xl shadow-xl">
+        <div className="m-auto  w-full max-w-xl items-center justify-center overflow-hidden rounded-2xl shadow-xl">
           <div className="h-48 bg-slate-200">
             <img
               src={users?.cover}
@@ -67,27 +67,33 @@ export const Profile = () => {
           <div className="mb-5 px-3 text-center text-sky-500">
             {users?.profile}
           </div>
-          <div className="flex items-center justify-start">
+          <div className="flex container items-center justify-start">
             <Link to={"/followings/" + params?.id}>
-              <p className=" ml-10 mb-7 text-bold cursor-pointer">
+              <p className=" ml-4 mb-7 text-bold cursor-pointer">
                 {Array.isArray(users?.followings) ? users.followings.length : 0}
                 フォロー中
               </p>
             </Link>
             <Link to={"/followers/" + params?.id}>
-              <p className=" ml-10 mb-7 text-bold cursor-pointer">
+              <p className=" ml-8 mb-7 text-bold cursor-pointer">
                 {Array.isArray(users?.followers) ? users?.followers.length : 0}
                 フォロワー
               </p>
             </Link>
-            {user?._id !== users?._id ? (
+            {user?._id !== users?._id && user?._id ? (
               <>
                 {users?.followings?.includes(user?._id) ? (
-                  <button className="flex ml-60" onClick={onClickUnfollow}>
+                  <button
+                    className="flex ml-48 relative bottom-3 border border-gray-200 bg-gray-200 text-gray-700 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline"
+                    onClick={onClickUnfollow}
+                  >
                     フォロー解除
                   </button>
                 ) : (
-                  <button className="flex ml-60" onClick={onClickFollow}>
+                  <button
+                    className="flex ml-48 relative bottom-3 border border-gray-200 bg-gray-200 text-gray-700 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline"
+                    onClick={onClickFollow}
+                  >
                     フォロー
                   </button>
                 )}{" "}
