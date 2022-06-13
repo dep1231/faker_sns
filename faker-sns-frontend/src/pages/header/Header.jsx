@@ -2,20 +2,36 @@ import React from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import "../../index.css";
 import { Link, Outlet } from "react-router-dom";
-import { reset, logout } from "../../redux/slice/auth/authSlice";
+import { reset, logout, authLogin } from "../../redux/slice/auth/authSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "../../components/spinner/Spinner";
 
 export const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLoading } = useSelector((state) => state.auth);
 
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     navigate("/");
+  };
+
+  const onClickLogin = () => {
+    try {
+      const user = {
+        email: "test@test.com",
+        password: "123456",
+      };
+      dispatch(authLogin(user));
+      if (isLoading) {
+        return <Spinner />;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -45,6 +61,14 @@ export const Header = () => {
             </>
           ) : (
             <>
+              <div className="py-4 cursor-pointer mr-2">
+                <button
+                  className="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+                  onClick={onClickLogin}
+                >
+                  簡単ログイン
+                </button>
+              </div>
               <div className="py-4 cursor-pointer mr-2">
                 <Link to="/register">
                   <button className="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline">

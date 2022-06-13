@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUsers } from "../../redux/slice/users/usersSlice";
 import { useParams } from "react-router-dom";
 import { uploadImages } from "../../functions/upload";
+import { getAllPosts } from "../../redux/slice/posts/postSlice";
 
 export const UpdateModal = () => {
   const [fileValue, setFileValue] = useState();
-  const params = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.users);
@@ -15,13 +15,12 @@ export const UpdateModal = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      picture: user?.picture,
-      username: user?.username,
-      profile: user?.profile,
+      picture: users?.picture,
+      username: users?.username,
+      profile: users?.profile,
     },
     criteriaMode: "all",
     shouldFocusError: false,
@@ -34,7 +33,7 @@ export const UpdateModal = () => {
     };
     console.log(req);
     try {
-      if (req.files) {
+      if (req.files.length > 0) {
         uploadImages(req.files).then((res) => {
           const postData = {
             userId: user._id,
@@ -44,9 +43,11 @@ export const UpdateModal = () => {
           };
           console.log(postData);
           dispatch(updateUsers(postData)).catch((err) => console.log(err));
+          dispatch(getAllPosts());
         });
       } else {
         dispatch(updateUsers(postData));
+        dispatch(getAllPosts());
       }
       // if (isLoading) {
       //   return <Spinner />;
