@@ -143,7 +143,9 @@ exports.comment = async (req, res) => {
         },
       },
       { new: true }
-    ).populate("comments.commentBy", "username picture");
+    )
+      .populate("comments.commentBy", "username picture")
+      .populate("user", "username picture");
     postComment.comments.sort((a, b) => {
       return b.commentAt - a.commentAt;
     });

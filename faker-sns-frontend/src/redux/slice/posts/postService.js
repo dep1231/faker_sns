@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/post/";
-const UPLOAD_API_URL = "http://localhost:8000/api/upload/";
-
+const API_URL = process.env.REACT_APP_API_URL_POST;
+const UPLOAD_API_URL = process.env.REACT_APP_API_URL_UPLOAD;
 // 投稿機能
 const createPost = async (postData, token) => {
   const config = {
