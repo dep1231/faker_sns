@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { uploadImages } from "../../functions/upload";
 import { getAllPosts } from "../../redux/slice/posts/postSlice";
 
-export const UpdateModal = () => {
+export const UpdateCoverModal = () => {
   const [fileValue, setFileValue] = useState();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -18,28 +18,25 @@ export const UpdateModal = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      picture: users?.picture,
-      username: users?.username,
-      profile: users?.profile,
+      cover: users?.cover,
     },
     criteriaMode: "all",
     shouldFocusError: false,
   });
 
   const onSubmit = (req) => {
+    console.log(req);
     const postData = {
       userId: user._id,
       ...req,
     };
-    console.log(req);
+    console.log(postData);
     try {
       if (req.files.length > 0) {
         uploadImages(req.files).then((res) => {
           const postData = {
             userId: user._id,
-            picture: res[0].url,
-            username: req.username,
-            profile: req.profile,
+            cover: res[0].url,
           };
           console.log(postData);
           dispatch(updateUsers(postData)).catch((err) => console.log(err));
@@ -65,7 +62,7 @@ export const UpdateModal = () => {
         onClick={() => setModalOpen(true)}
         className="border border-gray-400  text-gray-700 rounded-md px-4 py-2  transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline"
       >
-        編集
+        背景画像編集
       </button>
       {modalOpen ? (
         <>
@@ -76,7 +73,7 @@ export const UpdateModal = () => {
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
                   <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                    <h3 className="text-3xl font-semibold">プロフィール編集</h3>
+                    <h3 className="text-3xl font-semibold">背景画像編集</h3>
                     <button
                       className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                       onClick={() => setModalOpen(false)}
@@ -89,17 +86,17 @@ export const UpdateModal = () => {
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
                     <div className="mb-4">
-                      <div className="flex justify-center">
-                        <label htmlFor="getFile">
+                      <div className="h-48 bg-slate-200">
+                        <label htmlFor="getCover">
                           <img
+                            src={users?.cover}
                             alt=""
-                            className="h-32 rounded-full hover:opacity-75 cursor-pointer"
-                            src={users?.picture}
+                            className="h-48 w-full object-cover hover:opacity cursor-pointer"
                           />
                         </label>
                         <input
                           type="file"
-                          id="getFile"
+                          id="getCover"
                           onChange={(e) => {
                             setFileValue(e.target.files[0]);
                           }}
@@ -107,20 +104,6 @@ export const UpdateModal = () => {
                           className="hidden"
                         />
                       </div>
-                      <label className="block mb-1">ユーザーネーム</label>
-                      <input
-                        type="text"
-                        {...register("username", { required: true })}
-                        className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block mb-1">自己紹介</label>
-                      <textarea
-                        type="text"
-                        {...register("profile")}
-                        className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-                      />
                     </div>
                   </div>
                   {/*footer*/}
