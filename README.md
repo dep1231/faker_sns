@@ -26,8 +26,7 @@ MongoDB、Express、React、NodeJs を使用して構築しています。
 ・react-router-dom<br>
 ・react-hook-form<br>
 ・axios<br>
-
-react icons<br>
+・react icons<br>
 
 # 使用したバックエンドライブラリ一覧
 
