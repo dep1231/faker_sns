@@ -11,6 +11,7 @@ import {
 } from "../../redux/slice/users/usersSlice";
 import { Link } from "react-router-dom";
 import { UpdateModal } from "../../components/modal/UpdateModal";
+import { UpdateCoverModal } from "../../components/modal/UpdateCoverModal";
 
 export const Profile = () => {
   const params = useParams();
@@ -54,7 +55,11 @@ export const Profile = () => {
               alt=""
               className="h-48 w-full object-cover"
             />
+            <div className="flex justify-end relative right-4">
+              {user?._id === users?._id ? <UpdateCoverModal /> : null}
+            </div>
           </div>
+
           <div className="-mt-20 flex justify-center">
             <img alt="" className="h-32 rounded-full" src={users?.picture} />
           </div>
