@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/post/";
+const API_URL = process.env.REACT_APP_API_URL_POST;
 
 // 投稿の取得
 const getPostFind = async (postId) => {
