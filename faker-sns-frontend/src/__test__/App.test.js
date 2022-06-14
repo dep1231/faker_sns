@@ -1,5 +1,13 @@
-import { render, screen } from "@testing-library/react";
-// import userEvent from "@testing-library/user-event";
+import * as React from "react";
+import { Provider } from "react-redux";
 import App from "../App";
-
-test("renders learn react link", () => {});
+import { store } from "../redux/store/store";
+import { render, screen } from "@testing-library/react";
+test("first render", () => {
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+  expect(screen.getByText("-")).toBeInTheDocument();
+});
